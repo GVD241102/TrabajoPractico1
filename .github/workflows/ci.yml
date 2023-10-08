@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build project
+        run: yarn build
+
+      - name: Run unit tests
+        run: yarn test
+
+      - name: Publish to Expo
+        uses: expo/expo-cli@v5
+        with:
+          command: publish
+          args:
+            - --profile=my-expo-profile
+            - --token=my-expo-token
